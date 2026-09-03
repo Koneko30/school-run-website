@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>วิ่ง - งานวิ่งมินิมาราธอนเพื่อสุขภาพและมิตรภาพ</title>
+    <style>
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Sukhumvit Set', 'Kanit', 'Prompt', sans-serif;
+        }
+
+        :root {
+            --primary: #2e7d32;
+            --primary-light: #e8f5e9;
+            --primary-dark: #1b5e20;
+            --accent: #81c784;
+            --text-dark: #2c3e50;
+            --text-muted: #546e7a;
+            --bg-light: #f4f9f4;
+            --white: #ffffff;
+            --shadow: 0 8px 24px rgba(46, 125, 50, 0.08);
+            --radius: 20px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Section Styling */
+        section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            font-size: 1.05rem;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 12px 32px;
+            background-color: var(--primary);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(46, 125, 50, 0.2);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(46, 125, 50, 0.3);
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding-top: 150px;
+            padding-bottom: 90px;
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            text-align: center;
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 650px;
+            margin: 0 auto 30px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            background-color: var(--white);
+            color: var(--primary);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        /* Details & Schedule Grid */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background-color: var(--white);
+            padding: 35px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(46, 125, 50, 0.05);
+        }
+
+        .info-item {
+            margin-bottom: 20px;
+        }
+
+        .info-item h4 {
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        /* Activities Section */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .activity-card {
+            background-color: var(--white);
+            border-radius: var(--radius);
+            padding: 30px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+
+        .activity-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .activity-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        /* Route Map Section */
+        .map-box {
+            background-color: var(--primary-light);
+            border: 2px dashed var(--accent);
+            border-radius: var(--radius);
+            padding: 40px;
+            text-align: center;
+            color: var(--primary-dark);
+        }
+
+        .route-stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: var(--white);
+            padding: 15px 25px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        /* Gallery Section */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .gallery-item {
+            background-color: #a5d6a7;
+            height: 180px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+
+        /* Register CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--white);
+            text-align: center;
+            border-radius: 30px;
+            padding: 60px 20px;
+            margin: 40px auto;
+        }
+
+        .cta-section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+        }
+
+        .cta-section p {
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .btn-light {
+            background-color: var(--white);
+            color: var(--primary-dark);
+        }
+
+        .btn-light:hover {
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+        }
+
+        /* Contact & Footer */
+        footer {
+            background-color: #1e3620;
+            color: var(--white);
+            padding: 50px 0 20px;
+            margin-top: 60px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .footer-item h3 {
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+
+        .footer-item p {
+            opacity: 0.8;
+            margin-bottom: 8px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.85rem;
+            opacity: 0.6;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                display: none; /* Simplification for single-file mobile setup */
+            }
+
+            section {
+                padding: 50px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="#" class="logo">🌿 วิ่ง 2027</a>
+            <ul class="nav-links">
+                <li><a href="#about">รายละเอียดงาน</a></li>
+                <li><a href="#activities">กิจกรรมเด่น</a></li>
+                <li><a href="#route">เส้นทางวิ่ง</a></li>
+                <li><a href="#gallery">ภาพบรรยากาศ</a></li>
+                <li><a href="#contact">ติดต่อเรา</a></li>
+            </ul>
+            <a href="#register" class="btn">ลงทะเบียนวิ่ง</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container">
+            <span class="hero-badge">🌿 งานวิ่งมินิมาราธอนโรงเรียน</span>
+            <h1>วิ่ง (Run for Health & Friendship)</h1>
+            <p>งานวิ่งเพื่อสุขภาพและมิตรภาพ บรรยากาศอบอุ่น ผ่อนคลาย รับอากาศบริสุทธิ์ยามเช้าไปด้วยกัน เปิดรับสมัครสำหรับทุกคน!</p>
+            <a href="#register" class="btn">ลงทะเบียนวิ่ง</a>
+        </div>
+    </header>
+
+    <section id="about">
+        <div class="container">
+            <h2 class="section-title">รายละเอียดงาน & กำหนดการ</h2>
+            <p class="section-subtitle">ข้อมูลสำคัญสำหรับการเดินทางและเข้าร่วมกิจกรรม</p>
+            
+            <div class="grid-2">
+                <div class="card">
+                    <h3>📍 ข้อมูลงาน</h3>
+                    <br>
+                    <div class="info-item">
+                        <h4>วัน-เวลา จัดงาน</h4>
+                        <p>วันเสาร์ที่ 9 มกราคม 2027 | 05:00 - 08:30 น.</p>
+                    </div>
+                    <div class="info-item">
+                        <h4>สถานที่</h4>
+                        <p>ณ สนามกีฬาโรงเรียน</p>
+                    </div>
+                    <div class="info-item">
+                        <h4>กลุ่มผู้เข้าร่วม</h4>
+                        <p>นักเรียน, ครู, ศิษย์เก่า, ผู้ปกครอง และบุคคลทั่วไป</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>⏰ กำหนดการ</h3>
+                    <br>
+                    <div class="info-item">
+                        <h4>05:00 น.</h4>
+                        <p>นักวิ่งลงทะเบียน รับเสื้อและจุดบริการน้ำดื่ม</p>
+                    </div>
+                    <div class="info-item">
+                        <h4>05:30 น.</h4>
+                        <p>พิธีเปิดงาน & อบอุ่นร่างกายร่วมกัน</p>
+                    </div>
+                    <div class="info-item">
+                        <h4>06:00 น.</h4>
+                        <p>ปล่อยตัวนักวิ่งระยะ Fun Run และ Mini Marathon</p>
+                    </div>
+                    <div class="info-item">
+                        <h4>07:30 - 08:30 น.</h4>
+                        <p>ดนตรีในสวน, มอบรางวัลการประกวดแฟนซี และพิธีปิด</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="activities" style="background-color: rgba(46, 125, 50, 0.03);">
+        <div class="container">
+            <h2 class="section-title">กิจกรรมเด่นภายในงาน</h2>
+            <p class="section-subtitle">เติมเต็มความสุข สุขภาพดี และรอยยิ้มตลอดกิจกรรม</p>
+
+            <div class="grid-3">
+                <div class="activity-card">
+                    <div class="activity-icon">❤️</div>
+                    <h3>1. วิ่งการกุศล</h3>
+                    <p>วิ่งสะสมระยะทางและร่วมระดมทุนสนับสนุนอุปกรณ์การศึกษาและกีฬาให้น้องๆ</p>
+                </div>
+                <div class="activity-card">
+                    <div class="activity-icon">🎼</div>
+                    <h3>2. ดนตรีในสวน</h3>
+                    <p>ผ่อนคลายหลังการวิ่งด้วยบทเพลงฟังสบายจากชมรมดนตรีของนักเรียน</p>
+                </div>
+                <div class="activity-card">
+                    <div class="activity-icon">🎭</div>
+                    <h3>3. ประกวดแฟนซีวิ่ง</h3>
+                    <p>ปลดปล่อยความคิดสร้างสรรค์ แต่งชุดแฟนซีมาร่วมวิ่ง ลุ้นรับรางวัลพิเศษ</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="route">
+        <div class="container">
+            <h2 class="section-title">แผนที่เส้นทางวิ่ง</h2>
+            <p class="section-subtitle">เส้นทางธรรมชาติ ร่มรื่น ปลอดภัย เหมาะสำหรับทุกวัย</p>
+
+            <div class="map-box">
+                🗺️ [ แผนที่เส้นทางวิ่งรอบโรงเรียนและชุมชนเขียวขจี ]
+                <div class="route-stats">
+                    <div class="stat-item">
+                        <strong>Fun Run</strong>
+                        <p>3.5 กม.</p>
+                    </div>
+                    <div class="stat-item">
+                        <strong>Mini Marathon</strong>
+                        <p>10.5 กม.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery" style="background-color: rgba(46, 125, 50, 0.03);">
+        <div class="container">
+            <h2 class="section-title">ภาพบรรยากาศ</h2>
+            <p class="section-subtitle">ความประทับใจและมิตรภาพที่เกิดขึ้นในงาน</p>
+
+            <div class="gallery-grid">
+                <div class="gallery-item">📸 รอยยิ้มสายสุขภาพ</div>
+                <div class="gallery-item">📸 บรรยากาศดนตรีในสวน</div>
+                <div class="gallery-item">📸 สีสันชุดแฟนซี</div>
+                <div class="gallery-item">📸 เส้นทางวิ่งร่มรื่น</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="register">
+        <div class="container">
+            <div class="cta-section">
+                <h2>พร้อมมาวิ่งด้วยกันหรือยัง?</h2>
+                <p>เปิดรับสมัครแล้ววันนี้ มาร่วมสร้างสุขภาพที่ดีและมิตรภาพอันอบอุ่นด้วยกัน</p>
+                <a href="#" class="btn btn-light" onclick="alert('ขอบคุณที่สนใจ! ระบบลงทะเบียนจะเปิดเร็วๆ นี้'); return false;">ลงทะเบียนวิ่ง</a>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-item">
+                    <h3>งานวิ่ง "วิ่ง" 2027</h3>
+                    <p>งานวิ่งมินิมาราธอนโรงเรียน เพื่อสุขภาพและมิตรภาพที่ดีของทุกคนในชุมชน</p>
+                </div>
+                <div class="footer-item">
+                    <h3>ช่องทางการติดต่อ</h3>
+                    <p>📧 อีเมล: contact@schoolrun.ac.th</p>
+                    <p>📞 เบอร์โทรศัพท์: 02-XXX-XXXX</p>
+                    <p>📘 Facebook Page: โรงเรียนของเรา - Our School</p>
+                </div>
+                <div class="footer-item">
+                    <h3>สถานที่จัดงาน</h3>
+                    <p>สนามกีฬาโรงเรียน</p>
+                    <p>วันเสาร์ที่ 9 มกราคม 2027 (05:00 - 08:30 น.)</p>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2027 งานวิ่งโรงเรียน. Designed for High School Project.
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
