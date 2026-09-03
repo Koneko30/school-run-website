@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horology & Horrors: Hamilton x Resident Evil Requiem</title>
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Prompt:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-dark: #0a0b0d;
+            --bg-card: #121519;
+            --primary-gold: #d4af37;
+            --gold-light: #f3e5ab;
+            --red-tactical: #b71c1c;
+            --text-light: #e0e6ed;
+            --text-muted: #94a3b8;
+            --border-gold: rgba(212, 175, 55, 0.25);
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Prompt', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            overflow-x: hidden;
+            line-height: 1.7;
+        }
+
+        /* Typography Override */
+        h1, h2, h3, .brand-title {
+            font-family: 'Cinzel', 'Prompt', serif;
+            letter-spacing: 1px;
+        }
+
+        /* Navigation Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(10, 11, 13, 0.9);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-gold);
+            padding: 15px 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 25px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--primary-gold);
+            font-weight: 700;
+            font-size: 1.2rem;
+            text-decoration: none;
+        }
+
+        .logo i { font-size: 1.5rem; }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: var(--transition);
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary-gold);
+            background: rgba(212, 175, 55, 0.08);
+        }
+
+        /* Page System (SPA) */
+        .page-section {
+            display: none;
+            min-height: 100vh;
+            padding-top: 100px;
+            padding-bottom: 60px;
+            animation: fadeIn 0.5s ease-in-out forwards;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 25px;
+        }
+
+        /* Feature Layouts (Non-Standard) */
+        .page-header {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .page-header h1 {
+            font-size: 2.8rem;
+            color: var(--primary-gold);
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .page-header::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 2px;
+            background: var(--primary-gold);
+            margin: 20px auto 0;
+        }
+
+        /* Custom Comparison Section */
+        .watch-split-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: stretch;
+        }
+
+        .watch-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-gold);
+            border-radius: 12px;
+            padding: 35px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: var(--transition);
+        }
+
+        .watch-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15);
+        }
+
+        .watch-img-wrap {
+            width: 100%;
+            height: 260px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .watch-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.9) contrast(1.1);
+            transition: var(--transition);
+        }
+
+        .watch-card:hover .watch-img-wrap img {
+            transform: scale(1.05);
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .tag-grace { background: rgba(212, 175, 55, 0.15); color: var(--primary-gold); border: 1px solid var(--primary-gold); }
+        .tag-leon { background: rgba(183, 28, 28, 0.2); color: #ef5350; border: 1px solid #ef5350; }
+
+        .spec-table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        .spec-table td {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.9rem;
+        }
+
+        .spec-table td:first-child { color: var(--text-muted); }
+        .spec-table td:last-child { text-align: right; font-weight: 600; color: var(--text-light); }
+
+        /* Interactive Timeline */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            width: 2px;
+            height: 100%;
+            background: var(--border-gold);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            padding: 20px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+        }
+
+        .timeline-item:nth-child(odd) { left: 0; text-align: right; }
+        .timeline-item:nth-child(even) { left: 50%; text-align: left; }
+
+        .timeline-content {
+            padding: 25px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-gold);
+            border-radius: 8px;
+        }
+
+        .timeline-date {
+            color: var(--primary-gold);
+            font-weight: 700;
+            font-family: 'Cinzel', serif;
+        }
+
+        /* Gallery Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-item {
+            position: relative;
+            height: 250px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-gold);
+            cursor: pointer;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(10, 11, 13, 0.9));
+            padding: 20px;
+            transform: translateY(100%);
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover img { transform: scale(1.1); }
+        .gallery-item:hover .gallery-overlay { transform: translateY(0); }
+
+        /* Buttons & Interactive Elements */
+        .btn-action {
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            padding: 12px;
+            margin-top: 20px;
+            background: transparent;
+            color: var(--primary-gold);
+            border: 1px solid var(--primary-gold);
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .btn-action:hover {
+            background: var(--primary-gold);
+            color: var(--bg-dark);
+        }
+
+        /* Citation Reference List */
+        .references-box {
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-gold);
+            margin-top: 40px;
+        }
+
+        .references-box ol {
+            padding-left: 20px;
+        }
+
+        .references-box li {
+            margin-bottom: 12px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .references-box a {
+            color: var(--primary-gold);
+            text-decoration: none;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-links { display: none; } /* Simplified mobile handling */
+            .nav-links.mobile-open {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: var(--bg-dark);
+                padding: 20px;
+                border-bottom: 1px solid var(--border-gold);
+            }
+            .mobile-menu-btn { display: block; color: var(--primary-gold); font-size: 1.5rem; }
+            .watch-split-grid { grid-template-columns: 1fr; }
+            .timeline::before { left: 20px; }
+            .timeline-item { width: 100%; padding-left: 50px; text-align: left !important; }
+            .timeline-item:nth-child(even) { left: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header & Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo" onclick="switchPage('home')">
+                <i class="fa-solid fa-clock"></i> HAMILTON x RE
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a onclick="switchPage('home')" id="nav-home" class="active">หน้าแรก</a></li>
+                <li><a onclick="switchPage('grace-pan-europ')" id="nav-grace">Grace's Pan Europ</a></li>
+                <li><a onclick="switchPage('leon-khaki')" id="nav-leon">Leon's Khaki Field</a></li>
+                <li><a onclick="switchPage('history')" id="nav-history">ประวัติการคอลแลบ</a></li>
+                <li><a onclick="switchPage('gallery')" id="nav-gallery">แกลเลอรี</a></li>
+                <li><a onclick="switchPage('references')" id="nav-references">อ้างอิง</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- PAGE 1: HOME -->
+    <section id="home" class="page-section active">
+        <div class="container">
+            <div class="page-header">
+                <h1>HOROLOGY & SURVIVAL</h1>
+                <p>เจาะลึกนวัตกรรมเรือนเวลาร่วมมือระดับโลก ระหว่าง Hamilton และ Resident Evil Requiem</p>
+            </div>
+
+            <div class="watch-split-grid">
+                <!-- Grace's Watch -->
+                <div class="watch-card">
+                    <div>
+                        <span class="tag tag-grace">Grace Ashcroft Edition</span>
+                        <div class="watch-img-wrap">
+                            <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=80" alt="Hamilton Pan Europ">
+                        </div>
+                        <h2>American Classic Pan Europ</h2>
+                        <p style="color: var(--text-muted); margin-top: 10px;">
+                            เรือนเวลาประจำกายของ Grace Ashcroft นักวิเคราะห์ FBI โดดเด่นด้วยดีไซน์ทรง Cushion ตัวเรือนสแตนเลสสตีลเคลือบ PVD สีดำ ตัดกับรายละเอียดสีทอง Luxury
+                        </p>
+                    </div>
+                    <button class="btn-action" onclick="switchPage('grace-pan-europ')">อ่านรายละเอียดแบบเจาะลึก →</button>
+                </div>
+
+                <!-- Leon's Watch -->
+                <div class="watch-card">
+                    <div>
+                        <span class="tag tag-leon">Leon S. Kennedy Edition</span>
+                        <div class="watch-img-wrap">
+                            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80" alt="Hamilton Khaki Field">
+                        </div>
+                        <h2>Khaki Field Auto Chrono</h2>
+                        <p style="color: var(--text-muted); margin-top: 10px;">
+                            นาฬิกาสไตล์ Tactical ลุยสายยุทธวิธีของ Leon S. Kennedy เม็ดมะยมจำลองจากสเกลกล้องส่องสไนเปอร์ และปุ่มจับเวลาทรงหัวกระสุนปืน
+                        </p>
+                    </div>
+                    <button class="btn-action" onclick="switchPage('leon-khaki')">อ่านรายละเอียดแบบเจาะลึก →</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PAGE 2: GRACE ASHCROFT PAN EUROP -->
+    <section id="grace-pan-europ" class="page-section">
+        <div class="container">
+            <div class="page-header">
+                <h1>AMERICAN CLASSIC PAN EUROP</h1>
+                <p>Ref. H35455730 | Grace Ashcroft Limited Edition (จำกัด 2,000 เรือนทั่วโลก)</p>
+            </div>
+
+            <div style="background: var(--bg-card); padding: 35px; border-radius: 12px; border: 1px solid var(--border-gold);">
+                <h3 style="color: var(--primary-gold); margin-bottom: 15px;">การออกแบบและสัญลักษณ์พิเศษ (Design & Symbols)</h3>
+                <p>
+                    ตัวเรือนใช้วัสดุ Stainless Steel ขนาด 42 มม. หนา 11.9 มม. เคลือบ PVD สีดำดุดัน กรอบขอบตัวเรือน (Bezel) แบบหมุนได้ทิศทางเดียวพร้อมตัวเลขสีทองอมตระการตา ฝาหลังแกะสลักลวดลายเรขาคณิต (Geometric Motifs) สื่อถึงกระบวนการคิดเชิงตรรกะอันเฉียบแหลมของนักวิเคราะห์ FBI สายหนังวัวลายจระเข้ตัดขอบแถบสีทองตรงกลาง
+                </p>
+
+                <h3 style="color: var(--primary-gold); margin-top: 30px; margin-bottom: 15px;">สเปกทางเทคนิค (Technical Specifications)</h3>
+                <table class="spec-table">
+                    <tr><td>กลไก (Caliber)</td><td>Automatic Caliber H-30</td></tr>
+                    <tr><td>สำรองพลังงาน (Power Reserve)</td><td>80 ชั่วโมง</td></tr>
+                    <tr><td>กระจกหน้าปัด</td><td>Sapphire Crystal กันรอยสะท้อน</td></tr>
+                    <tr><td>การกันน้ำ</td><td>5 bar (50 เมตร)</td></tr>
+                    <tr><td>สปริงสายใย balance</td><td>Nivachron™ ป้องกันสนามแม่เหล็ก</td></tr>
+                    <tr><td>ราคาเปิดตัว</td><td>CHF 1,180 / EUR 1,345 / USD 1,475</td></tr>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- PAGE 3: LEON S. KENNEDY KHAKI FIELD -->
+    <section id="leon-khaki" class="page-section">
+        <div class="container">
+            <div class="page-header">
+                <h1>KHAKI FIELD AUTO CHRONO</h1>
+                <p>Ref. H71636330 | Leon S. Kennedy Limited Edition (จำกัด 2,000 เรือนทั่วโลก)</p>
+            </div>
+
+            <div style="background: var(--bg-card); padding: 35px; border-radius: 12px; border: 1px solid var(--border-gold);">
+                <h3 style="color: #ef5350; margin-bottom: 15px;">รายละเอียดเชิงยุทธวิธี (Tactical Detail)</h3>
+                <p>
+                    ออกแบบมาเพื่อสู้ศึกการเอาชีวิตรอดโดยเฉพาะ ตัวเรือน PVD สีดำขนาด 42 มม. หนา 14.5 มม. เม็ดมะยมถูกถอดแบบมาจากปุ่มปรับกล้องส่องเล็งสไนเปอร์ (Sniper Scope Knob) ปุ่มกดจับเวลา Chronograph ดีไซน์ทรงปลอกกระสุนปืน บริเวณ 9 นาฬิกาบนหน้าปัดพิมพ์สัญลักษณ์ปีกนกเพื่อไว้อาลัยแก่สหายที่ล่วงลับในเหตุการณ์ Raccoon City
+                </p>
+
+                <h3 style="color: #ef5350; margin-top: 30px; margin-bottom: 15px;">สเปกทางเทคนิค (Technical Specifications)</h3>
+                <table class="spec-table">
+                    <tr><td>กลไก (Caliber)</td><td>Automatic Chronograph Caliber H-21</td></tr>
+                    <tr><td>สำรองพลังงาน (Power Reserve)</td><td>60 ชั่วโมง</td></tr>
+                    <tr><td>การกันน้ำ</td><td>10 bar (100 เมตร)</td></tr>
+                    <tr><td>พรายน้ำ</td><td>Super-LumiNova อ่านค่าในที่มืด</td></tr>
+                    <tr><td>สายนาฬิกา</td><td>สายยางสังเคราะห์สีดำยืดหยุ่นสูง</td></tr>
+                    <tr><td>ราคาเปิดตัว</td><td>CHF 1,825 / EUR 2,095 / USD 2,175</td></tr>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- PAGE 4: HISTORY -->
+    <section id="history" class="page-section">
+        <div class="container">
+            <div class="page-header">
+                <h1>COLLABORATION HISTORY</h1>
+                <p>เส้นทางประวัติศาสตร์การร่วมมือระหว่างวงการเรือนเวลาและวิดีโอเกม</p>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <span class="timeline-date">1932 - Present</span>
+                        <h4>Hamilton in Cinema & Gaming</h4>
+                        <p>Hamilton ได้รับฉายาว่า Watchmaker of Filmmakers โดยปรากฏในภาพยนตร์มากกว่า 500 เรื่อง และเริ่มขยายสู่วงการวงการเกมดิจิทัล</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <span class="timeline-date">January 2026</span>
+                        <h4>Official Announcement</h4>
+                        <p>Hamilton และ Capcom ประกาศเปิดตัวนาฬิการุ่นพิเศษประจำเกม Resident Evil Requiem อย่างเป็นทางการ</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <span class="timeline-date">February 27, 2026</span>
+                        <h4>Global Release Date</h4>
+                        <p>วางจำหน่ายพร้อมกันทั่วโลกทั้ง 2 รุ่น ผลิตจำนวนจำกัดเพียงรุ่นละ 2,000 เรือน</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PAGE 5: GALLERY -->
+    <section id="gallery" class="page-section">
+        <div class="container">
+            <div class="page-header">
+                <h1>GALLERY</h1>
+                <p>คอลเลกชันภาพถ่ายรายละเอียดความงดงามของเรือนเวลา</p>
+            </div>
+
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=800&q=80" alt="Watch Dial">
+                    <div class="gallery-overlay"><h4>รายละเอียดหน้าปัดสีดำ PVD</h4></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=800&q=80" alt="Watch Crown">
+                    <div class="gallery-overlay"><h4>เม็ดมะยมและปุ่มกดจับเวลาทรงยุทธวิธี</h4></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80" alt="Watch Movement">
+                    <div class="gallery-overlay"><h4>กลไกอัตโนมัติสำรองพลังงานสูง</h4></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PAGE 6: REFERENCES -->
+    <section id="references" class="page-section">
+        <div class="container">
+            <div class="page-header">
+                <h1>REFERENCES & SOURCES</h1>
+                <p>รายการแหล่งข้อมูลอ้างอิงที่เชื่อถือได้ทางประวัติศาสตร์เรือนเวลา</p>
+            </div>
+
+            <div class="references-box">
+                <ol>
+                    <li>
+                        <strong>Hamilton Official Website:</strong> American Classic Pan Europ Resident Evil Requiem Limited Edition (Ref. H35455730). 
+                        <br><a href="https://www.hamiltonwatch.com/en-int/h35455730-american-classic-day-date-auto-pan-europ-resident-evil-requiem-limited-edition.html" target="_blank">เข้าถึงข้อมูล official</a>
+                    </li>
+                    <li>
+                        <strong>Hamilton Official Website:</strong> Khaki Field Auto Chrono Resident Evil Requiem Limited Edition (Ref. H71636330). 
+                        <br><a href="https://www.hamiltonwatch.com/en-int/h71636330-khaki-field-day-date-auto-chrono-resident-evil-requiem-limited-edition.html" target="_blank">เข้าถึงข้อมูล official</a>
+                    </li>
+                    <li>
+                        <strong>MONOCHROME Watches:</strong> Hamilton Enters the World of Resident Evil Requiem with Two Limited Editions. 
+                        <br><a href="https://monochrome-watches.com/hamilton-x-resident-evil-requiem-limited-editions-khaki-field-auto-chrono-and-american-classic-pan-europ-introducing-price/" target="_blank">อ่านบทความรีวิวฉบับเต็ม</a>
+                    </li>
+                    <li>
+                        <strong>Ditur Journal:</strong> Hamilton Resident Evil Limited Edition: Grace Ashcroft / Leon S. Kennedy Overview.
+                        <br><a href="https://www.ditur.com/blog/hamilton-resident-evil-limited-edition" target="_blank">อ่านบทความ</a>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Horology Knowledge Portal | Created for Educational Purpose | Powered by GitHub Pages</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript SPA Engine -->
+    <script>
+        function switchPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page-section');
+            pages.forEach(page => page.classList.remove('active'));
+
+            // Show selected page
+            const selectedPage = document.getElementById(pageId);
+            if (selectedPage) {
+                selectedPage.classList.add('active');
+            }
+
+            // Update Nav Active State
+            const navLinks = document.querySelectorAll('.nav-links a');
+            navLinks.forEach(link => link.classList.remove('active'));
+            
+            const activeNav = document.getElementById('nav-' + pageId);
+            if (activeNav) {
+                activeNav.classList.add('active');
+            }
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
